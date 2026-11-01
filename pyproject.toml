@@ -1,0 +1,33 @@
+[project]
+name = "pokeapi-tests"
+version = "1.0.0"
+description = "Test automation framework for PokeAPI v2 with pytest and Allure Report v3"
+readme = "README.md"
+requires-python = ">=3.10"
+
+
+dependencies = [
+    "requests>=2.31,<3.0",
+    "jsonschema>=4.21,<5.0",
+    "pytest>=8.0,<9.0",
+    "allure-pytest>=2.13,<3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-org/pokeapi-tests"
+Documentation = "https://pokeapi.co/docs/v2"
+Repository = "https://github.com/your-org/pokeapi-tests.git"
+
+
+# Pre-built lockfile
+pre-publish = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "smoke: fast sanity checks against critical endpoints",
+    "regression: full regression suite",
+    "schema: response contract / JSON schema validation tests",
+    "api: plain API behaviour tests (no schema validation)",
+]

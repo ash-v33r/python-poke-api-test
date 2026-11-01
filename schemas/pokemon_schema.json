@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "pokeapi.pokemon.schema.json",
+  "title": "PokeAPI v2 - Pokemon resource",
+  "description": "Contract for GET /api/v2/pokemon/{name}",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "base_experience",
+    "height",
+    "weight",
+    "is_default",
+    "order",
+    "abilities",
+    "forms",
+    "game_indices",
+    "held_items",
+    "location_area_encounters",
+    "moves",
+    "species",
+    "sprites",
+    "stats",
+    "types"
+  ],
+  "properties": {
+    "id": { "type": "integer", "minimum": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "base_experience": { "type": ["integer", "null"] },
+    "height": { "type": "integer", "minimum": 0 },
+    "weight": { "type": "integer", "minimum": 0 },
+    "is_default": { "type": "boolean" },
+    "order": { "type": "integer" },
+    "location_area_encounters": { "type": "string", "format": "uri" },
+    "abilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["is_hidden", "slot", "ability"],
+        "properties": {
+          "is_hidden": { "type": "boolean" },
+          "slot": { "type": "integer", "minimum": 1 },
+          "ability": { "$ref": "#/$defs/named_api_resource" }
+        }
+      }
+    },
+    "forms": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/named_api_resource" }
+    },
+    "game_indices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["game_index", "version"],
+        "properties": {
+          "game_index": { "type": "integer" },
+          "version": { "$ref": "#/$defs/named_api_resource" }
+        }
+      }
+    },
+    "held_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["item", "version_details"],
+        "properties": {
+          "item": { "$ref": "#/$defs/named_api_resource" }
+        }
+      }
+    },
+    "moves": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["move", "version_group_details"],
+        "properties": {
+          "move": { "$ref": "#/$defs/named_api_resource" }
+        }
+      }
+    },
+    "species": { "$ref": "#/$defs/named_api_resource" },
+    "sprites": {
+      "type": "object",
+      "properties": {
+        "front_default": { "type": ["string", "null"] },
+        "back_default": { "type": ["string", "null"] },
+        "other": { "type": "object" },
+        "versions": { "type": "object" }
+      }
+    },
+    "stats": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["base_stat", "effort", "stat"],
+        "properties": {
+          "base_stat": { "type": "integer" },
+          "effort": { "type": "integer" },
+          "stat": { "$ref": "#/$defs/named_api_resource" }
+        }
+      }
+    },
+    "types": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["slot", "type"],
+        "properties": {
+          "slot": { "type": "integer", "minimum": 1 },
+          "type": { "$ref": "#/$defs/named_api_resource" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "named_api_resource": {
+      "title": "NamedAPIResource",
+      "type": "object",
+      "required": ["name", "url"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "url": {
+          "type": "string",
+          "pattern": "^https://pokeapi\\.co/api/v2/.+$"
+        }
+      }
+    }
+  }
+}
